@@ -1,3 +1,6 @@
 from django.contrib import admin
 
-# Register your models here.
+from .models import (User, Restaurant, Category, MenuItem, Order,  OrderItem,
+                     Delivery, Payment, Review, Address)
+
+admin.site.register(User)

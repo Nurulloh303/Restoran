@@ -1,10 +1,10 @@
 from rest_framework import viewsets
 from .models import (
-    Restaurant, User, Category, MenuItem,
+    Restaurant, Category, MenuItem,
     Order, OrderItem, Delivery, Payment, Review, Address
 )
 from .serializers import (
-    RestaurantSerializer, UserSerializer, CategorySerializer, MenuItemSerializer,
+    RestaurantSerializer, CategorySerializer, MenuItemSerializer,
     OrderSerializer, OrderItemSerializer, DeliverySerializer, PaymentSerializer,
     ReviewSerializer, AddressSerializer
 )
@@ -13,10 +13,6 @@ class RestaurantViewSet(viewsets.ModelViewSet):
     queryset = Restaurant.objects.all()
     serializer_class = RestaurantSerializer
 
-
-class UserViewSet(viewsets.ModelViewSet):
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
 
 
 class CategoryViewSet(viewsets.ModelViewSet):
@@ -32,6 +28,10 @@ class MenuItemViewSet(viewsets.ModelViewSet):
 class OrderViewSet(viewsets.ModelViewSet):
     queryset = Order.objects.all()
     serializer_class = OrderSerializer
+
+    def perform_create(self, serializer):
+        # restaurant = self.request.user.restaurant
+        serializer.save(customer=self.request.user)
 
 
 class OrderItemViewSet(viewsets.ModelViewSet):

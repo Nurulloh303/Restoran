@@ -45,7 +45,6 @@ INSTALLED_APPS = [
 
 ]
 
-AUTH_USER_MODEL = 'app.User'
 
 
 MIDDLEWARE = [
@@ -144,3 +143,4 @@ JAZZMIN_SETTINGS = {
     "copyright": "© 2025 MyRestaurant",
 }
 
+AUTH_USER_MODEL = 'app.User'
