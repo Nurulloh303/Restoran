@@ -1,12 +1,12 @@
-from rest_framework import viewsets
+from rest_framework import viewsets, permissions
 from .models import (
     Restaurant, Category, MenuItem,
-    Order, OrderItem, Delivery, Payment, Review, Address
+    Order, OrderItem, Delivery, Payment, Review, Address, Like, Comment
 )
 from .serializers import (
     RestaurantSerializer, CategorySerializer, MenuItemSerializer,
     OrderSerializer, OrderItemSerializer, DeliverySerializer, PaymentSerializer,
-    ReviewSerializer, AddressSerializer
+    ReviewSerializer, AddressSerializer, LikeSerializer, CommentSerializers
 )
 
 class RestaurantViewSet(viewsets.ModelViewSet):
@@ -37,6 +37,23 @@ class OrderViewSet(viewsets.ModelViewSet):
 class OrderItemViewSet(viewsets.ModelViewSet):
     queryset = OrderItem.objects.all()
     serializer_class = OrderItemSerializer
+
+
+class LikeViewSet(viewsets.ModelViewSet):
+    queryset = Like.objects.all()
+    serializer_class = LikeSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
+class CommentViewSet(viewsets.ModelViewSet):
+    queryset = Comment.objects.all()
+    serializer_class = CommentSerializers
+    permission_classes = [permissions.IsAuthenticated]
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
 
 
 class DeliveryViewSet(viewsets.ModelViewSet):

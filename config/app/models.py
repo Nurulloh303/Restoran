@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.core.validators import FileExtensionValidator, MinValueValidator, MaxValueValidator
+from django.db.models import UniqueConstraint
+
 
 class User(AbstractUser):
     phone = models.CharField(max_length=13, null=True, blank=True)
@@ -66,6 +68,30 @@ class OrderItem(models.Model):
 
     def __str__(self):
         return self.menu_item.name
+
+class Like(models.Model):
+    order = models.ForeignKey(Order, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    like = models.BooleanField(default=False)
+
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['order', 'user'], name='unique_user_order_like')
+        ]
+
+    def __str__(self):
+        return f"{self.user.username} → Order #{self.order.id}"
+
+class Comment(models.Model):
+    order = models.ForeignKey(Order, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    comment = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.user.username}: {self.comment[:30]}"
+
 
 class Delivery(models.Model):
     order = models.OneToOneField(Order, on_delete=models.CASCADE)
