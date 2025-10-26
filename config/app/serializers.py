@@ -29,7 +29,7 @@ class SimpleRestaurantSerializer(serializers.ModelSerializer):
 
 
 class MenuItemSerializer(serializers.ModelSerializer):
-    restaurant = SimpleRestaurantSerializer(read_only=True) 
+    restaurant = serializers.PrimaryKeyRelatedField(queryset=Restaurant.objects.all())
 
     class Meta:
         model = MenuItem

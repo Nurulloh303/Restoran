@@ -3,6 +3,8 @@ from .models import (
     Restaurant, Category, MenuItem,
     Order, OrderItem, Delivery, Payment, Review, Address, Like, Comment
 )
+from rest_framework.filters import SearchFilter, OrderingFilter
+from rest_framework.permissions import IsAuthenticated
 from .serializers import (
     RestaurantSerializer, CategorySerializer, MenuItemSerializer,
     OrderSerializer, OrderItemSerializer, DeliverySerializer, PaymentSerializer,
@@ -23,6 +25,10 @@ class CategoryViewSet(viewsets.ModelViewSet):
 class MenuItemViewSet(viewsets.ModelViewSet):
     queryset = MenuItem.objects.all()
     serializer_class = MenuItemSerializer
+    filter_backends = (SearchFilter, OrderingFilter)
+    search_fields = ('name', 'price', 'description')
+    ordering_fields = ('name', 'price')
+    permission_classes = (IsAuthenticated,)
 
 
 class OrderViewSet(viewsets.ModelViewSet):

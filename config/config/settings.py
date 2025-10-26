@@ -43,6 +43,9 @@ INSTALLED_APPS = [
 
     'app',
 
+    'rest_framework.authtoken',
+    'djoser',
+
 ]
 
 
@@ -144,3 +147,10 @@ JAZZMIN_SETTINGS = {
 }
 
 AUTH_USER_MODEL = 'app.User'
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',
+    ),
+}
