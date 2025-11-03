@@ -39,6 +39,8 @@ class OrderViewSet(viewsets.ModelViewSet):
         # restaurant = self.request.user.restaurant
         serializer.save(customer=self.request.user)
 
+    
+
 
 class OrderItemViewSet(viewsets.ModelViewSet):
     queryset = OrderItem.objects.all()
